@@ -4,7 +4,6 @@ db = get_db()
 ingrediente = db.ingrediente
 retete = db.retete
 
-# ================= INGREDIENTE =================
 
 def get_ingrediente(filtru=None):
     """Returneaza toate ingredientele"""
@@ -25,7 +24,6 @@ def sterge_ingredient(filtru):
     return ingrediente.delete_many(filtru)
 
 
-# ================= RETETE =================
 
 def get_retete(filtru=None):
     """Returneaza toate retetele"""
