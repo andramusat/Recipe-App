@@ -109,7 +109,11 @@ if menu == "Ingrediente":
     st.dataframe(df_ing, use_container_width=True)
 
     st.subheader("Adaugă ingredient")
-    with st.form("adauga_ing"):
+
+    if "ing_adaugat" not in st.session_state:
+        st.session_state.ing_adaugat = False
+
+    with st.form("adauga_ing", clear_on_submit=True):
         nume = st.text_input("Nume")
         unitate = st.selectbox("Unitate", ["g", "kg", "ml", "l", "buc"])
         categorie = st.text_input("Categorie")
@@ -117,7 +121,7 @@ if menu == "Ingrediente":
         alergeni = st.text_input("Alergeni (separați prin virgulă)")
         submitted = st.form_submit_button("Adaugă")
 
-        if submitted:
+        if submitted and not st.session_state.ing_adaugat:
             adauga_ingredient({
                 "nume": nume,
                 "unitate": unitate,
@@ -126,7 +130,9 @@ if menu == "Ingrediente":
                 "alergeni": [a.strip() for a in alergeni.split(",") if a.strip()]
             })
             st.success(f"Ingredientul '{nume}' a fost adăugat!")
+            st.session_state.ing_adaugat = True
             df_ing = pd.DataFrame(get_ingrediente())
+
 
     st.subheader("Modifică ingredient")
     if not df_ing.empty:
